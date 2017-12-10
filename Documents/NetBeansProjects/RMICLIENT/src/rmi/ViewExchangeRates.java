@@ -5,6 +5,8 @@
  */
 package rmi;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author Bilal
@@ -243,6 +245,9 @@ public class ViewExchangeRates extends javax.swing.JFrame {
         String s=Double.toString(x);
         USDGBP.setText(s);
     }
+        public JButton getback(){
+        return back;
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel USDEGP;

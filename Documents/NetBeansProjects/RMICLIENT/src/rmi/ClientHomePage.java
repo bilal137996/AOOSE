@@ -5,6 +5,8 @@
  */
 package rmi;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author Bilal
@@ -199,7 +201,10 @@ public class ClientHomePage extends javax.swing.JFrame {
          accnum.setText(x);
      }
 
-
+  public JButton getExchnageRateButton()
+    {
+        return ViewExchangeRates;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CheckBalance;
     private javax.swing.JButton Inbox;

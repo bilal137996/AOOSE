@@ -27,11 +27,13 @@ public class RMICLIENT {
     private static ViewTransactionLog viewLog;
     
     
+    
     public static void main(String[] args) {
         initLoginGUI();
         initRegisterGUI();
         initHomePage();
-        initViewratesGUI();
+        initExchangeRatesGUI();
+       // initViewratesGUI();
       //  initViewLogGUI();
         loginGUI.setVisible(true);
         
@@ -64,25 +66,39 @@ public class RMICLIENT {
 //          // Logger.getLogger(RMICLIENT.class.getName()).log(Level.SEVERE, null, ex);
 //       }
 //      }
-private static void initViewratesGUI() {
-       try {
-           viewrates= new ViewExchangeRates();
-           viewrates.setLocationRelativeTo(null);
-           //NRG3 Leha tany 3ashan nzbt gui el ablo wl b3do :D just finish then copy paste ur work :D :D
-          /*  ExchangeRates rates = services.ViewExchangeRates();
-            viewrates.setUSDEGP(rates.getUSDEGP());
-             viewrates.setUSDEUR(rates.getUSDEUR());
-              viewrates.setUSDSAR(rates.getUSDSAR());
-               viewrates.setUSDQAR(rates.getUSDQAR());
-                viewrates.setUSDGBP(rates.getUSDGBP());
-            */
-           
-       } catch (Exception ex) {
-         
-            System.out.println("Exception " + ex.toString());
-       }
-           
-}   
+      
+          private static void initExchangeRatesGUI() {
+        viewrates = new ViewExchangeRates();
+        viewrates.setLocationRelativeTo(null); // center the screen
+       
+        Homepage.getExchnageRateButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ExchangeRates rates= services.ViewExchangeRates();
+                    viewrates.setUSDEGP(rates.getUSDEGP());
+                     viewrates.setUSDEUR(rates.getUSDEUR());
+                     viewrates.setUSDGBP(rates.getUSDGBP());
+                     viewrates.setUSDQAR(rates.getUSDQAR());
+                     viewrates.setUSDSAR(rates.getUSDSAR());        
+                } catch (Exception ex) {
+                    Logger.getLogger(RMICLIENT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+          viewrates.getback().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                viewrates.dispose();
+                    initHomePage();
+                   
+                    Homepage.setVisible(true);
+            }
+        });
+          
+          }
+        
+      
     private static void initLoginGUI(){
         
      loginGUI = new ClientGUI();
@@ -95,8 +111,8 @@ private static void initViewratesGUI() {
                 //   if(loginGUI.Getclient().isSelected()){
                 String username = loginGUI.getUserName();
                 String password = loginGUI.getPassword();
-                BankClients client =new BankClients();
-                services.Loign( client,username, password);
+                BankClients client = new  BankClients();
+                services.Loign(client, username, password);
                 if (client == null) {
                     JOptionPane.showMessageDialog(null, "Wrong username/password. Please try again");
                 } else {
