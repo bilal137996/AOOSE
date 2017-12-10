@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.security.util.Password;
 
-/**
+/**,
  *
  * @author Bilal , 
  */
@@ -57,7 +57,7 @@ public class Services extends UnicastRemoteObject implements ServicesInterface ,
 //        return instance;
 //    }
     
-// 
+ 
    @Override
     public Object Loign(Object Param, String username, String password) throws RemoteException {
    
