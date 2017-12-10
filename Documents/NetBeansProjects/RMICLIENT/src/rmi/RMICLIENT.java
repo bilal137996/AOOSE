@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmiclient;
+package rmi;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +38,9 @@ public class RMICLIENT {
           // and grab the remote auth object
         try {
             Registry r = LocateRegistry.getRegistry(1099);
+
             services = (ServicesInterface) r.lookup("x");
+           
         } catch (Exception e) {
             System.out.println("Exception " + e.toString());
         }
@@ -67,13 +69,13 @@ private static void initViewratesGUI() {
            viewrates= new ViewExchangeRates();
            viewrates.setLocationRelativeTo(null);
            //NRG3 Leha tany 3ashan nzbt gui el ablo wl b3do :D just finish then copy paste ur work :D :D
-            ExchangeRates rates = services.ViewExchangeRates();
+          /*  ExchangeRates rates = services.ViewExchangeRates();
             viewrates.setUSDEGP(rates.getUSDEGP());
              viewrates.setUSDEUR(rates.getUSDEUR());
               viewrates.setUSDSAR(rates.getUSDSAR());
                viewrates.setUSDQAR(rates.getUSDQAR());
                 viewrates.setUSDGBP(rates.getUSDGBP());
-            
+            */
            
        } catch (Exception ex) {
          
@@ -93,7 +95,8 @@ private static void initViewratesGUI() {
                 //   if(loginGUI.Getclient().isSelected()){
                 String username = loginGUI.getUserName();
                 String password = loginGUI.getPassword();
-                BankClients client = services.Loign(username, password);
+                BankClients client =new BankClients();
+                services.Loign( client,username, password);
                 if (client == null) {
                     JOptionPane.showMessageDialog(null, "Wrong username/password. Please try again");
                 } else {
@@ -141,7 +144,6 @@ private static void initViewratesGUI() {
                 String ssn=registerGUI.Getssn();
                 String email=registerGUI.getEmail();
                 
-
                 int newUser = services.Register(username, Fname, Lname,email,password,ssn);
 
                 if (newUser == 0) {

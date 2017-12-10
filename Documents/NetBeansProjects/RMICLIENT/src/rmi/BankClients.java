@@ -3,19 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmiclient;
+package rmi;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Bilal
  */
-public class BankClients  implements Serializable {
+public class BankClients implements Serializable   {
     private String FirstName,LastName,Email,Password,SSN,UserName;
-    int Balance; int AccountNumber;
+    int Balance;  int AccountNumber; //implement AccountNumber
    public static ArrayList<BankClients> RegisteredClients;
+   static final long serialVersionUID = -687991492884005033L;
+    private List<PropertyChangeListener> listener = new ArrayList<PropertyChangeListener>();
+
+    public BankClients() {
+    }
     
     public BankClients(String UserName,String Fname,String Lname,String mail,String pass, String SSN){
         this.Balance=Balance;
@@ -94,7 +102,7 @@ public class BankClients  implements Serializable {
         }
         return false;
     }
-          public static boolean AccountExist(int accNum) {
+       public static boolean AccountExist(int accNum) {
          
         for (int i = 0; i < RegisteredClients.size(); i++) {
             if (RegisteredClients.get(i).getAccountNumber()==accNum) {
@@ -103,4 +111,22 @@ public class BankClients  implements Serializable {
         }
         return false;
     }
+// public BankClients(Subject subject){
+//      this.subject = subject;
+//      this.subject.attach(this);
+//   }
+//        private void notifyListeners(Object object, String property, String oldValue, String newValue) {
+//        for (PropertyChangeListener name : listener) {
+//            name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+//        }
+//    }
+//
+//    public void addChangeListener(PropertyChangeListener newListener) {
+//        listener.add(newListener);
+//    }
+//
+//    @Override
+//    public void update() {
+//        System.out.println( "Binary String: " + Integer.toBinaryString( subject.getState() ) ); 
 }
+
