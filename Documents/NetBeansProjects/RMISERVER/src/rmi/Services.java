@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmiserver;
+package rmi;
 
 import com.google.gson.Gson;
 import java.rmi.RemoteException;
@@ -19,13 +19,9 @@ import sun.security.util.Password;
 
 /**
  *
- * @author Bilal , StaffServicesInterface
+ * @author Bilal , 
  */
-public class Services extends UnicastRemoteObject implements ServicesInterface  {
-
-
- 
-    
+public class Services extends UnicastRemoteObject implements ServicesInterface ,StaffServicesInterface  { 
     
  // double USDEGP ,USDEUR,USDSAR,USDQAR,USDGBP;
    
@@ -38,67 +34,65 @@ public class Services extends UnicastRemoteObject implements ServicesInterface  
         BankClients.RegisteredClients = new ArrayList();
         Transactions.transactionsList= new ArrayList();
         Staff.ExistedStaff= new ArrayList();
-      
-        
+        Complains.AllComplains= new ArrayList();
     }
-     // @Override
-//    public <T> T Loig(T instance, String username, String password) throws RemoteException {
+//      @Override
+//    public <T> T Loign(T instance, String username, String password) throws RemoteException {
 //        if(instance instanceof BankClients){
 //            for (int i = 0; i < BankClients.RegisteredClients.size(); i++) {
 //            BankClients bankClient = BankClients.RegisteredClients.get(i);
 //            if ((bankClient.getUserName().equals(username)) && (bankClient.getPassword().equals(password))) {
-//                return bankClient;
+//                return (T) bankClient;
 //            }}
 //    }
 //        else if(instance instanceof Staff){
 //          for (int i = 0; i < Staff.ExistedStaff.size(); i++) {
 //            Staff staff = Staff.ExistedStaff.get(i);
 //            if ((staff.getUserName().equals(username)) && (staff.getPassword().equals(password))) {
-//                return instance;
+//                return (T)staff;
 //            }
 //        }
 //    }
-//        else
-//            return null;
+//        
 //        return instance;
 //    }
-//    
- 
-//   @Override
-//    public Object Loign(Object Param, String username, String password) throws RemoteException {
-//   
-//         if(Param instanceof BankClients){
-//               for (int i = 0; i < BankClients.RegisteredClients.size(); i++) {
-//            BankClients bankClient = BankClients.RegisteredClients.get(i);
-//            if ((bankClient.getUserName().equals(username)) && (bankClient.getPassword().equals(password))) {
-//                return bankClient;
-//            }
-//        }
-//       
-//        
-//    }else if(Param instanceof Staff){
-//          for (int i = 0; i < Staff.ExistedStaff.size(); i++) {
-//            Staff staff = Staff.ExistedStaff.get(i);
-//            if ((staff.getUserName().equals(username)) && (staff.getPassword().equals(password))) {
-//                return staff;
-//            }
-//        }
-//        
-//    }
-//         return null;
-//    }
-
     
-    @Override
-    public BankClients Loign(String UserName, String Password) throws RemoteException {
-         for (int i = 0; i < BankClients.RegisteredClients.size(); i++) {
+// 
+   @Override
+    public Object Loign(Object Param, String username, String password) throws RemoteException {
+   
+         if(Param instanceof BankClients){
+               for (int i = 0; i < BankClients.RegisteredClients.size(); i++) {
             BankClients bankClient = BankClients.RegisteredClients.get(i);
-            if ((bankClient.getUserName().equals(UserName)) && (bankClient.getPassword().equals(Password))) {
+            if ((bankClient.getUserName().equals(username)) && (bankClient.getPassword().equals(password))) {
                 return bankClient;
             }
         }
-        return null;
+       
+        
+    }else if(Param instanceof Staff){
+          for (int i = 0; i < Staff.ExistedStaff.size(); i++) {
+            Staff staff = Staff.ExistedStaff.get(i);
+            if ((staff.getUserName().equals(username)) && (staff.getPassword().equals(password))) {
+                return staff;
+            }
+        }
+        
     }
+         return null;
+    }
+
+    
+//    @Override
+//    public BankClients Loign(String UserName, String Password) throws RemoteException {
+//         for (int i = 0; i < BankClients.RegisteredClients.size(); i++) {
+//            BankClients bankClient = BankClients.RegisteredClients.get(i);
+//            if ((bankClient.getUserName().equals(UserName)) && (bankClient.getPassword().equals(Password))) {
+//                return bankClient;
+//            }
+//        }
+//        return null;
+//    }
 
     @Override
     public int Register(String UserName, String Fname, String Lname, String mail, String pass, String SSN) throws RemoteException {
@@ -112,8 +106,6 @@ public class Services extends UnicastRemoteObject implements ServicesInterface  
             return 1;
         }
     }
-    
-
     @Override
     public int Make_A_Transaction(int SenderAcc, int RecipientAcc, int Amount, String Type) throws RemoteException {
         if(BankClients.AccountExist(RecipientAcc)){
@@ -159,9 +151,8 @@ public class Services extends UnicastRemoteObject implements ServicesInterface  
             if(BankClients.RegisteredClients.get(i).getUserName().equals(UserName))
                 return BankClients.RegisteredClients.get(i).getBalance();
         }
-        return 1;
+        return -1;
     }
-
     @Override
      public ExchangeRates ViewExchangeRates() throws RemoteException, Exception {
    
@@ -172,11 +163,7 @@ public class Services extends UnicastRemoteObject implements ServicesInterface  
                   if(x.getSuccess()==true){
              rates= new ExchangeRates(x.getQuotes().getUSDEGP(), x.getQuotes().getUSDEUR(),  x.getQuotes().getUSDSAR() ,x.getQuotes().getUSDQAR()
                              ,x.getQuotes().getUSDGBP());
-         
-             
-                    
-                    
-                  } 
+} 
 //                    System.out.println("Currency from 1 USD To EGP : "+USDEGP);
 //                    System.out.println("Currency from 1 USD To Euro : "+USDEUR);
 //                    System.out.println("Currency from 1 USD To Sterling Pounds : "+USDGBP);
@@ -195,7 +182,41 @@ public class Services extends UnicastRemoteObject implements ServicesInterface  
                return  rates;
     }
 
+    @Override
+    public int DeleteUserAccount(String UserName) throws RemoteException {
+          if (!BankClients.UserExist(UserName)) {
+            return 0;
+        } else {
+           for(int i =0 ; i<BankClients.RegisteredClients.size(); i++){
+            if(BankClients.RegisteredClients.get(i).getUserName().equals(UserName))
+                BankClients.RegisteredClients.remove(i);
+            return 1;
+               
+        }
+            return 1;
+        }
+    }
+
+    @Override
+    public int SendComplains(String UserName, String Message, String Type) throws RemoteException {
+    
+          Complains newComplain= new Complains(Message,Type);
+          newComplain.setTimeStamp(sdf.format(date));
+          newComplain.setID(100000 + (int)(r.nextFloat() * 899900));
+          newComplain.setComplainSender(UserName);
+          Complains.AllComplains.add(newComplain);
+    
+        return 1;
+    }
+
+  
+
+   
+}
+    
+
+   
+
   
 
 
-}

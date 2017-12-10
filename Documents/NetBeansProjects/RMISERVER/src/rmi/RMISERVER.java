@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmiserver;
+package rmi;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -22,10 +22,6 @@ public class RMISERVER {
     public static void main(String[] args) {
        try {
             ServicesInterface services = new Services();
-           
-            
-            
-       
             Registry r = LocateRegistry.createRegistry(1099);
             r.bind("x", services);
             System.out.println("Server running.");

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmiserver;
+package rmi;
 
 import java.util.ArrayList;
-import static rmiserver.BankClients.RegisteredClients;
+import static rmi.BankClients.RegisteredClients;
 
 /**
  *
@@ -14,19 +14,25 @@ import static rmiserver.BankClients.RegisteredClients;
  */
 public class Staff {
      private String FirstName,LastName,Email,Password,UserName;
+     private static Staff instance = null;
 
 public static ArrayList<Staff> ExistedStaff;
 
-    public Staff() {
+    private Staff() {
     }
-     
-    public Staff(String FirstName, String LastName, String Email, String Password, String UserName) {
-        this.FirstName = FirstName;
-        this.LastName = LastName;
-        this.Email = Email;
-        this.Password = Password;
-        this.UserName = UserName;
-    }
+     public static Staff getInstance() {
+      if(instance == null) {
+         instance = new Staff();
+      }
+      return instance;
+   }
+//    public Staff(String FirstName, String LastName, String Email, String Password, String UserName) {
+//        this.FirstName = FirstName;
+//        this.LastName = LastName;
+//        this.Email = Email;
+//        this.Password = Password;
+//        this.UserName = UserName;
+//    }
 
     public String getFirstName() {
         return FirstName;

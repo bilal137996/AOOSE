@@ -3,19 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rmiserver;
+package rmi;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Bilal
  */
-public class BankClients extends Observer implements Serializable   {
+public class BankClients implements Serializable   {
     private String FirstName,LastName,Email,Password,SSN,UserName;
     int Balance;  int AccountNumber; //implement AccountNumber
    public static ArrayList<BankClients> RegisteredClients;
+   static final long serialVersionUID = -687991492884005033L;
+    private List<PropertyChangeListener> listener = new ArrayList<PropertyChangeListener>();
 
     public BankClients() {
     }
@@ -110,8 +115,18 @@ public class BankClients extends Observer implements Serializable   {
 //      this.subject = subject;
 //      this.subject.attach(this);
 //   }
-    @Override
-    public void update() {
-        System.out.println( "Binary String: " + Integer.toBinaryString( subject.getState() ) ); 
+//        private void notifyListeners(Object object, String property, String oldValue, String newValue) {
+//        for (PropertyChangeListener name : listener) {
+//            name.propertyChange(new PropertyChangeEvent(this, property, oldValue, newValue));
+//        }
+//    }
+//
+//    public void addChangeListener(PropertyChangeListener newListener) {
+//        listener.add(newListener);
+//    }
+//
+//    @Override
+//    public void update() {
+//        System.out.println( "Binary String: " + Integer.toBinaryString( subject.getState() ) ); 
 }
-}
+
