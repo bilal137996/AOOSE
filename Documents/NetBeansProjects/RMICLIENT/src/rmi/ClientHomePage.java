@@ -6,6 +6,7 @@
 package rmi;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 /**
  *
@@ -196,9 +197,15 @@ public class ClientHomePage extends javax.swing.JFrame {
      public void setUsername(String s) {
         username.setText(s);
     }
+      public JLabel getUsername() {
+        return username;
+    }
      public void setAccnum(int s){
          String x= Integer.toString(s);
          accnum.setText(x);
+     }
+     public String getAccNum(){
+         return accnum.getText();
      }
 
   public JButton getExchnageRateButton()

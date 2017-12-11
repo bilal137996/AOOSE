@@ -25,6 +25,85 @@ public class RMICLIENT {
     private static Register registerGUI;
     private static ViewExchangeRates viewrates;
     private static ViewTransactionLog viewLog;
+    private static SendComplains complainsGUI;
+    private static MakeTransaction maketransGUI;
+    
+         private static void initMakeTransGUI() {
+        maketransGUI = new MakeTransaction();
+        maketransGUI.setLocationRelativeTo(null); 
+        int BalanceBefore = 0;
+        for(int i=0;i<BankClients.RegisteredClients.size();i++){
+            if(BankClients.RegisteredClients.get(i).getUserName().equals(Homepage.getUsername())){
+          BalanceBefore+=  BankClients.RegisteredClients.get(i).getBalance();
+            }
+        }
+        
+        maketransGUI.setBalancebefore(Integer.toString(BalanceBefore));
+        maketransGUI.getmakeatrans().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                int SenderAcc= Integer.parseInt(Homepage.getAccNum());
+                int RecipientAcc= Integer.parseInt(maketransGUI.getRecp());
+                int Amount=Integer.parseInt(maketransGUI.getAmount());
+                String Type=maketransGUI.gettype();
+                int BalanceAfter=Amount-Integer.parseInt(maketransGUI.getBalancebefore().toString());
+                
+               
+                    
+                    
+                try {
+                    int sucess=services.Make_A_Transaction(SenderAcc, RecipientAcc, Amount, Type);
+                    if(sucess==1){
+                        JOptionPane.showMessageDialog(null, "Transaction Done Successfully" +"\n Your New Balance is "+BalanceAfter );
+                        
+                        maketransGUI.setBalanceafter(Integer.toString(BalanceAfter));
+                        maketransGUI.getJTextFieldAmount().setEditable(false);
+                        maketransGUI.getJTextFieldType().setEditable(false);
+                        maketransGUI.getJTextFieldrecepientAccount().setEditable(false);
+                    }
+                    else
+                         JOptionPane.showMessageDialog(null, "Transaction Failed Please contact the bank for more info" );
+                    
+                } catch (RemoteException ex) {
+                    Logger.getLogger(RMICLIENT.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        complainsGUI.Send().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                          try {
+                String Message = complainsGUI.getmessage();
+                String Type = complainsGUI.gettype();
+                int newComplain=services.SendComplains(Homepage.getUsername().toString(), Message, Type);
+            
+
+                if (newComplain == 1) {
+                    
+                    
+                    JOptionPane.showMessageDialog(null, "Your Commplain Has Been Sent Succefully. We will resond in a few hours! ");
+                    complainsGUI.dispose();
+                    //initHomePage();
+                    Homepage.setVisible(true);
+                }
+
+            } catch (Exception ex) {
+                   JOptionPane.showMessageDialog(null, "Exception! ");
+            }
+            }
+        });
+        complainsGUI.back().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               complainsGUI.dispose();
+               initHomePage();
+                    Homepage.setVisible(true);
+               
+            }
+        });
+    }
     
     
     
@@ -33,6 +112,7 @@ public class RMICLIENT {
         initRegisterGUI();
         initHomePage();
         initExchangeRatesGUI();
+        initSendComplainsGUI();
        // initViewratesGUI();
       //  initViewLogGUI();
         loginGUI.setVisible(true);
@@ -50,6 +130,43 @@ public class RMICLIENT {
       private static void initHomePage() {
         Homepage = new ClientHomePage();
         Homepage.setLocationRelativeTo(null); // center the screen
+    }
+       private static void initSendComplainsGUI() {
+        complainsGUI = new SendComplains();
+        complainsGUI.setLocationRelativeTo(null); 
+        complainsGUI.Send().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                          try {
+                String Message = complainsGUI.getmessage();
+                String Type = complainsGUI.gettype();
+                int newComplain=services.SendComplains(Homepage.getUsername().toString(), Message, Type);
+            
+
+                if (newComplain == 1) {
+                    
+                    
+                    JOptionPane.showMessageDialog(null, "Your Commplain Has Been Sent Succefully. We will resond in a few hours! ");
+                    complainsGUI.dispose();
+                    //initHomePage();
+                    Homepage.setVisible(true);
+                }
+
+            } catch (Exception ex) {
+                   JOptionPane.showMessageDialog(null, "Exception! ");
+            }
+            }
+        });
+        complainsGUI.back().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               complainsGUI.dispose();
+               initHomePage();
+                    Homepage.setVisible(true);
+               
+            }
+        });
     }
 //      
 //      private static void initViewLogGUI(){
