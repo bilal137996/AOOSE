@@ -19,7 +19,8 @@ import javax.swing.JOptionPane;
  * @author Bilal
  */
 public class RMICLIENT {
-   private static ServicesInterface services; // Our remote object
+   private static ServicesInterface services; 
+      private static StaffServicesInterface staffservices;
      private static ClientGUI loginGUI;
     private static ClientHomePage Homepage;
     private static Register registerGUI;
@@ -119,8 +120,10 @@ public class RMICLIENT {
         
           // and grab the remote auth object
         try {
+            
             Registry r = LocateRegistry.getRegistry(1099);
-
+Registry x=LocateRegistry.getRegistry(1100);
+staffservices=(StaffServicesInterface) x.lookup("staffservices");
             services = (ServicesInterface) r.lookup("x");
            
         } catch (Exception e) {
@@ -229,7 +232,7 @@ public class RMICLIENT {
                 String username = loginGUI.getUserName();
                 String password = loginGUI.getPassword();
                 BankClients client = new  BankClients();
-                services.Loign(client, username, password);
+                services.Loign((BankClients)client, username, password);
                 if (client == null) {
                     JOptionPane.showMessageDialog(null, "Wrong username/password. Please try again");
                 } else {
