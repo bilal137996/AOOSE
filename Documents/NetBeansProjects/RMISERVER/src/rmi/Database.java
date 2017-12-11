@@ -75,7 +75,7 @@ MongoClient mongoClient = new MongoClient(new ServerAddress(), Arrays.asList(cre
     public Database() {
     }
 
-    public static void insertRecord(Object param, String collectionName) throws RemoteException {
+    public static void insert(Object param, String collectionName) throws RemoteException {
         if (collectionName.equals("Bank_Clients")) {
              BankClients Client = (BankClients) param;
             DBObject client = new BasicDBObject("Username", Client.getUserName()).append("Fname",Client.getFirstName()).append("Lname",Client.getLastName())
@@ -101,7 +101,7 @@ MongoClient mongoClient = new MongoClient(new ServerAddress(), Arrays.asList(cre
         }
     }
 
-    public static void deleteRecord(String collectionName, String Search) throws RemoteException {
+    public static void delete(String collectionName, String Search) throws RemoteException {
         BasicDBObject searchQuery = new BasicDBObject();
         if (collectionName.equals("Bank_Clients")) {
             searchQuery.put("Username", Search);
