@@ -22,7 +22,10 @@ public class RMISERVER {
     public static void main(String[] args) {
        try {
             ServicesInterface services = new Services();
+            StaffServicesInterface staffservices=new Services();
             Registry r = LocateRegistry.createRegistry(1099);
+            Registry x= LocateRegistry.createRegistry(1100);
+            x.bind("staffservices", staffservices);
             r.bind("x", services);
             System.out.println("Server running.");
         } catch (Exception ex) {
